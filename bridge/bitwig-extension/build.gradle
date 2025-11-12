@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.andypost.mcpbridge'
+version = '0.1.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+    withJavadocJar()
+    withSourcesJar()
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // TODO (Codex): Add Bitwig Controller API (compileOnly) – jar or maven source.
+    // compileOnly files('libs/bitwig-controller-api.jar')
+}
+
+tasks.register('packageExtension', Zip) {
+    group = 'distribution'
+    description = 'Packages the .bwextension archive'
+    archiveExtension = 'bwextension'
+    archiveBaseName = 'MCPBridgeExtension'
+    destinationDirectory = layout.buildDirectory.dir('distributions')
+    from(tasks.named('jar'))
+    from('src/main/resources/extension.json') {
+        into('')
+    }
+}
+
+tasks.build {
+    dependsOn tasks.packageExtension
+}
