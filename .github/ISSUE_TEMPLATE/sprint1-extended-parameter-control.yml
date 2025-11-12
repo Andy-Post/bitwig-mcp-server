@@ -1,0 +1,32 @@
+name: Sprint 1 – Extended Parameter Control (Remote-OSC)
+description: Implement Remote-OSC integration, batch parameter control, and YAML mappings.
+title: "Sprint 1 – Extended Parameter Control (Remote-OSC)"
+labels: [sprint, enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Implement **Remote-OSC integration** in the Python MCP server with batch parameter control and YAML mappings (EQ+, Compressor, Utility).
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: What exactly should be done in this sprint?
+      value: |
+        - Integrate `python-osc`
+        - Implement OSC bundle sender and Remote-OSC wrapper
+        - YAML mappings for EQ+, Compressor, Utility
+        - Smoke tests and docs
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      value: |
+        - OSC roundtrip < 10 ms  
+        - ≥ 64 parameters in < 100 ms batch  
+        - Mappings load and apply correctly  
+        - Docs and tests included
