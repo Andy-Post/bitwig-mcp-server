@@ -30,5 +30,22 @@ integrate it with the controller/MCP layer, and add minimal mapping persistence.
 1. Build & run environment as in Sprint 1 & 2.
 
 2. Mapping engine:
-   ```bash
    uv run pytest tests/test_mapping_engine.py
+
+3. Export/import:
+   uv run python -m bitwig_mcp_server.tools.mapping_export --profile test_profile
+   uv run python -m bitwig_mcp_server.tools.mapping_import --profile test_profile
+
+4. Optional integration test:
+   - Configure a mapping profile for some tracks/devices/params.
+   - Export, restart MCP server, import profile.
+   - Verify the same mapping is active.
+
+## Acceptance Checklist
+- [ ] Mapping engine resolves slots deterministically.
+- [ ] Validation detects missing/invalid/duplicate mappings.
+- [ ] Controller-facing structures derived from mapping engine.
+- [ ] Mapping profiles can be exported/imported.
+- [ ] docs/README_Sprint3.md added/updated.
+- [ ] Tests for mapping + persistence green.
+- [ ] PR references and closes the Sprint 3 issue.
