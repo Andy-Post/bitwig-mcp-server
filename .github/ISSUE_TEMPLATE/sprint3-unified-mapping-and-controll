@@ -1,0 +1,69 @@
+name: Sprint 3 – Unified Mapping & Controller Integration
+description: Implement unified mapping engine, controller/MCP binding, and minimal mapping persistence on top of the existing bridge and Remote-OSC.
+title: "Sprint 3 – Unified Mapping & Controller Integration"
+labels: [sprint, enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Goal
+        Final sprint: build a unified mapping engine on top of the bridge (WS) and Remote-OSC,
+        integrate it with the controller/MCP layer, and add minimal persistence of mappings
+        (so mappings survive project/restart).
+
+        Internally structured into three sub-steps (3.1, 3.2, 3.3), but delivered as one sprint:
+        - 3.1 Unified Mapping Engine (Track/Device/Parameter abstraction)
+        - 3.2 Controller/MCP Integration (binding mapping layer to surfaces)
+        - 3.3 Minimal Mapping Persistence (save/load mappings, not full snapshot system)
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      value: |
+        3.1 Unified Mapping Engine
+        - Introduce a mapping model in Python (e.g. bitwig_mcp_server/core/mapping_engine.py)
+        - Represent relations: Track -> Device -> Parameter -> Slot (Remote-OSC /user/xxxx)
+        - Support rules:
+          - by explicit name (track/device/param)
+          - by index
+          - by simple patterns (e.g. first EQ+ on a track)
+        - Expose APIs:
+          - resolve_mapping(track, device, param) -> slot
+          - list_mappings(track, device)
+          - validate_mappings() (missing params, invalid slots, conflicts)
+
+        3.2 Controller/MCP Integration
+        - Add a controller-facing abstraction that can be used by an MCP layer:
+          - Provide a structure that describes pages/banks:
+            - which tracks
+            - which devices
+            - which parameters are visible on a given page
+          - Expose short text labels suitable for scribble strips / displays.
+        - Add simple bank navigation helpers (next/prev track bank, next/prev device bank, param pages).
+        - If a MCP/HW layer already exists in the repo, integrate mapping_engine into it;
+          otherwise, provide a clean integration module + unit tests with mocks.
+
+        3.3 Minimal Mapping Persistence
+        - Allow saving the current mapping configuration (not parameter values) to disk:
+          - Track/device/param to slot rules.
+        - File format: YAML or JSON (Codex to choose, but must document).
+        - Default location: e.g. ~/.mcp_bitwig/mappings/<profile>.yml
+        - CLI tools:
+          - mapping_export --profile <name>
+          - mapping_import --profile <name>
+        - On startup, try to load a default profile if configured.
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      value: |
+        - Mapping engine can resolve track/device/param to Remote-OSC slots deterministically.
+        - Mapping validation detects missing/broken mappings and reports them clearly.
+        - Controller-facing structures (pages/banks) are derived from the mapping engine.
+        - Minimal persistence works: mappings can be exported/imported and re-used.
+        - CLI tools for export/import exist and are documented.
+        - Tests for mapping resolution, validation, and persistence are green.
+    validations:
+      required: true
