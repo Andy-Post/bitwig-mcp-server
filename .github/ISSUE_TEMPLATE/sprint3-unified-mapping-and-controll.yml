@@ -1,51 +1,41 @@
-# Sprint 3 – Unified Mapping & Controller Integration
+name: "Sprint 3 – Unified Mapping & Controller Integration"
+description: "Implement unified mapping validator, auto-generation, and controller integration."
+title: "Sprint 3 – Unified Mapping & Controller Integration"
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Sprint 3 – Unified Mapping & Controller Integration
 
-## Summary
-Final sprint: build a unified mapping engine on top of the bridge (WS) and Remote-OSC,
-integrate it with the controller/MCP layer, and add minimal mapping persistence.
+        Ziel dieses Sprints:  
+        Vereinheitlichte Mappings (JSON+YAML), automatische Ableitung von Controller-Slots, 
+        Validierung, Hot-Reload und Dokumentation.
 
-## Related
-- Closes: #<IssueNr>
-- Base: `main`
-- Compare: `feature/sprint3-unified-mapping`
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: Was wird in diesem Sprint umgesetzt?
+      value: |
+        - Unified mapping loader for YAML+JSON
+        - Mapping validator with conflict detection
+        - Controller integration (auto-slot-assignment)
+        - Hot-reload logic for interactive changes
+        - Docs + mappings for EQ+, Compressor, Utility
+    validations:
+      required: true
 
-## Changes
-### 3.1 Unified Mapping Engine
-- feat(mapping): introduce mapping engine (Track -> Device -> Param -> Slot)
-- feat(mapping): rule-based resolution (by name, index, simple patterns)
-- feat(mapping): validation of mappings (missing params, conflicting slots)
-
-### 3.2 Controller/MCP Integration
-- feat(controller): add page/bank abstraction for controller surfaces
-- feat(controller): label/compact parameter names for displays
-- feat(controller): helpers for bank navigation (tracks/devices/params)
-
-### 3.3 Minimal Mapping Persistence
-- feat(persistence): export/import mapping profiles (YAML/JSON)
-- feat(cli): mapping_export / mapping_import commands
-- docs: add docs/README_Sprint3.md
-- test: add tests for mapping resolution, validation, and persistence
-
-## Test Instructions
-1. Build & run environment as in Sprint 1 & 2.
-
-2. Mapping engine:
-   uv run pytest tests/test_mapping_engine.py
-
-3. Export/import:
-   uv run python -m bitwig_mcp_server.tools.mapping_export --profile test_profile
-   uv run python -m bitwig_mcp_server.tools.mapping_import --profile test_profile
-
-4. Optional integration test:
-   - Configure a mapping profile for some tracks/devices/params.
-   - Export, restart MCP server, import profile.
-   - Verify the same mapping is active.
-
-## Acceptance Checklist
-- [ ] Mapping engine resolves slots deterministically.
-- [ ] Validation detects missing/invalid/duplicate mappings.
-- [ ] Controller-facing structures derived from mapping engine.
-- [ ] Mapping profiles can be exported/imported.
-- [ ] docs/README_Sprint3.md added/updated.
-- [ ] Tests for mapping + persistence green.
-- [ ] PR references and closes the Sprint 3 issue.
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      value: |
+        - Mapping validator detects conflicts and missing ranges
+        - Controller mapping is auto-derived from unified format
+        - Hot reload performs update < 50ms
+        - Examples (EQ+, Compressor, Utility) validated and usable
+        - Docs complete and merged to main
+    validations:
+      required: true
